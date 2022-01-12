@@ -1,4 +1,4 @@
-require("dotenv").config();
+
 const jwt= require("jsonwebtoken")
 
 
@@ -11,4 +11,17 @@ const verifyJwt=(token)=>{
     return jwt.verify(token,process.env.JWT_SECRET);
 }
 
-module.exports={createJwt,verifyJwt}
+const attachCookieToResponse=(res,user)=>{
+    const token=createJwt({payload:user});
+    const oneDay= 1000*60*60*24;
+    console.log(token,user);
+
+    res.cookie("token",token,{
+        httpOnly:true,
+        expires:new Date(Date.now()+oneDay),
+        secure:process.env.NODE_ENV==="production",
+        signed:true
+    })
+
+}
+module.exports={createJwt,verifyJwt,attachCookieToResponse}

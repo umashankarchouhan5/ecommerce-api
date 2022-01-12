@@ -9,20 +9,26 @@ const connectDB=require("./db/connect")
 
 //routers
 const authRouter=require("./routes/auth");
+const userRouter= require("./routes/userRoutes")
 
 
 //middlewares
 const errorMiddleware=require("./middleware/error-handler")
 const notFoundMiddleware=require("./middleware/not-found")
+const cookieParser=require("cookie-parser");
 
 app.use(express.json());
+app.use(cookieParser(process.env.JWT_SECRET));
+
 app.use(morgan("tiny"))
 
 app.get("/",(req,res)=>{
-    res.send("welcome to page")
+    
+    res.json({greeting:"welcome to page",cookie:req.signedCookies})
 })
 
 app.use("/api/v1/auth",authRouter);
+app.use("/api/v1/users",userRouter)
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);

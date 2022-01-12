@@ -1,5 +1,5 @@
-const {createJwt,verifyJwt}=require("./jwt.js")
+const {createJwt,verifyJwt,attachCookieToResponse}=require("./jwt.js")
 
 
 
-module.exports={createJwt,verifyJwt};
+module.exports={createJwt,verifyJwt,attachCookieToResponse};
