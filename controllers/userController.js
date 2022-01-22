@@ -40,6 +40,7 @@ const deleteUser = async (req, res) => {
 const showCurrentUser = async (req, res) => {
   res.status(StatusCodes.OK).json({ user: req.user });
 };
+
 const updateUserPassword = async (req, res) => {
   const { password, newPassword } = req.body;
   if (!password || !newPassword) {
