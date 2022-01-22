@@ -11,6 +11,7 @@ const ProductSchema = new mongoose.Schema(
     price: {
       type: Number,
       required: [true, "please provide a price"],
+      default: 0,
     },
     description: {
       type: String,
@@ -24,10 +25,11 @@ const ProductSchema = new mongoose.Schema(
     },
     image: {
       type: String,
-      default: "uploads/image",
+      default: "uploads/noimage.jpg",
     },
     colors: {
       type: [String],
+      default: ["#222"],
       required: true,
     },
     company: {
@@ -46,6 +48,10 @@ const ProductSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    numOfReviews: {
+      type: Number,
+      default: 0,
+    },
     inventory: {
       type: Number,
       required: true,
@@ -63,5 +69,9 @@ const ProductSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+ProductSchema.pre("remove", async function (next) {
+  await this.model("Review").deleteMany({ product: this._id });
+});
 
 module.exports = mongoose.model("Product", ProductSchema);

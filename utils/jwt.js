@@ -14,7 +14,6 @@ const verifyJwt = (token) => {
 const attachCookieToResponse = (res, user) => {
   const token = createJwt({ payload: user });
   const oneDay = 1000 * 60 * 60 * 24;
-  console.log(token, user);
 
   res.cookie("token", token, {
     httpOnly: true,
